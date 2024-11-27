@@ -12,6 +12,11 @@ import setupMocks from './mockApi/setupMocks';
 const CaseListView = React.lazy(() =>
   import('cases').then((module) => ({ default: module.CaseListView })),
 );
+
+const CaseItemView = React.lazy(() =>
+  import('cases').then((module) => ({ default: module.CaseItemView })),
+);
+
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
@@ -24,6 +29,15 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<div>...</div>}>
             <CaseListView />
+          </Suspense>
+        ),
+      },
+
+      {
+        path: 'cases/:caseId',
+        element: (
+          <Suspense fallback={<div>...</div>}>
+            <CaseItemView />
           </Suspense>
         ),
       },
