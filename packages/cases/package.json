@@ -14,6 +14,7 @@
     "lint:fix": "eslint ./src --ext .ts,.tsx --fix"
   },
   "dependencies": {
+    "@tanstack/react-table": "^8.20.5",
     "shared": "workspace:*"
   }
 }
