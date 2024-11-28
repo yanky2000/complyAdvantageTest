@@ -21,3 +21,8 @@ export interface User {
 }
 
 export type GetUsersResponse = User[];
+
+export type Pagination = {
+  pageIndex: number;
+  pageSize: number;
+};

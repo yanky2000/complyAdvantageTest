@@ -4,13 +4,18 @@ import {
   flexRender,
   createColumnHelper,
 } from '@tanstack/react-table';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CaseApi, UserApi, type Case } from 'shared';
-import { Box, Heading } from 'theme-ui';
+import { CaseApi, UserApi, type Case, type Pagination } from 'shared';
+import { Box, Button, Heading } from 'theme-ui';
 
 export const CaseListView = () => {
-  const casesQuery = CaseApi.useGetCasesQuery();
+  const [pagination, setPagination] = useState<Pagination>({
+    pageIndex: 0,
+    pageSize: 25,
+  });
+
+  const casesQuery = CaseApi.useGetCasesQuery(pagination);
   const usersQuery = UserApi.useGetUsersQuery();
 
   const casesColumns = useMemo(() => {
@@ -58,6 +63,9 @@ export const CaseListView = () => {
     data: casesQuery.data?.cases || [],
     columns: casesColumns,
     getCoreRowModel: getCoreRowModel(),
+    state: { pagination },
+    onPaginationChange: setPagination,
+    manualPagination: true,
   });
 
   if (casesQuery.isLoading || usersQuery.isLoading)
@@ -65,41 +73,68 @@ export const CaseListView = () => {
   if (casesQuery.isError || usersQuery.isError)
     return <div>Something went wrong</div>;
 
-  const isDataReady = casesQuery.data && usersQuery.data;
+  const isDataReady = Boolean(casesQuery.data && usersQuery.data);
 
   return (
     <Box>
       <Heading>Cases</Heading>
       {isDataReady ? (
-        <table>
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody>
-            {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <>
+          <table>
+            <thead>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <th key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody>
+              {table.getRowModel().rows.map((row) => (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <td key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <Box>
+            <Button
+              onClick={() => table.setPageIndex(0)}
+              disabled={!casesQuery.data?.prev}
+            >
+              First
+            </Button>
+            <Button
+              onClick={() => table.previousPage()}
+              disabled={!casesQuery.data?.prev}
+            >
+              Previous
+            </Button>
+            <span>Page {table.getState().pagination.pageIndex + 1}</span>
+            <Button
+              onClick={() => table.nextPage()}
+              disabled={!casesQuery.data?.next}
+            >
+              Next
+            </Button>
+          </Box>
+        </>
       ) : null}
     </Box>
   );
