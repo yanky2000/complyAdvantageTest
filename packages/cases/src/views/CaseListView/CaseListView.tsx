@@ -5,6 +5,7 @@ import {
   createColumnHelper,
 } from '@tanstack/react-table';
 import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { CaseApi, UserApi, type Case } from 'shared';
 import { Box, Heading } from 'theme-ui';
 
@@ -22,7 +23,14 @@ export const CaseListView = () => {
 
     return [
       columnHelper.accessor('name', {
-        cell: (cell) => <p>{cell.getValue()}</p>,
+        cell: (cell) => (
+          <Link
+            to={`${cell.row.original.identifier}`}
+            state={{ caseDetails: cell.row.original }}
+          >
+            {cell.getValue()}
+          </Link>
+        ),
         header: () => <p>Name</p>,
       }),
 
