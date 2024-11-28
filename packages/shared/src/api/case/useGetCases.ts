@@ -16,5 +16,6 @@ export const useGetCasesQuery = (pagination: Pagination) => {
       return fetchTyped<GetCasesResponse>(url.toString(), {});
     },
     placeholderData: (previousData) => previousData,
+    staleTime: 3 * 60 * 1000, // Data is fresh for 3 minutes
   });
 };
