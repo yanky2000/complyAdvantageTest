@@ -6,14 +6,14 @@ export const useGetUsersQuery = () => {
   return useQuery({
     queryKey: ['users'],
     queryFn: () => fetchTyped<GetUsersResponse>('/api/users', {}),
-    select: (users) => {
-      return users?.reduce(
-        (acc, user) => {
-          acc[user.identifier] = user;
-          return acc;
-        },
-        {} as Record<User['identifier'], User>,
-      );
-    },
+    // select: (users) => {
+    //   return users?.reduce(
+    //     (acc, user) => {
+    //       acc[user.identifier] = user;
+    //       return acc;
+    //     },
+    //     {} as Record<User['identifier'], User>,
+    //   );
+    // },
   });
 };
