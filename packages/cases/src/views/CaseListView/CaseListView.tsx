@@ -6,8 +6,8 @@ import {
 } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CaseApi, UserApi, type Case, type Pagination } from 'shared';
-import { Box, Button, Heading } from 'theme-ui';
+import { Box, Button, Heading, Select } from 'theme-ui';
+import { PAGINATION_ITEMS_PER_PAGE } from './constants';
 
 export const CaseListView = () => {
   const [pagination, setPagination] = useState<Pagination>({
@@ -74,6 +74,9 @@ export const CaseListView = () => {
     return <div>Something went wrong</div>;
 
   const isDataReady = Boolean(casesQuery.data && usersQuery.data);
+  const handleChangeCasePerPage = (count: string) => {
+    setPagination({ ...pagination, pageSize: +count });
+  };
 
   return (
     <Box>
@@ -127,6 +130,17 @@ export const CaseListView = () => {
               Previous
             </Button>
             <span>Page {table.getState().pagination.pageIndex + 1}</span>
+            <Box>
+              <Select
+                sx={{ width: 'size-xs' }}
+                onChange={(e) => handleChangeCasePerPage(e.target.value)}
+              >
+                {PAGINATION_ITEMS_PER_PAGE.map((item) => (
+                  <option key={item}>{item}</option>
+                ))}
+              </Select>
+            </Box>
+
             <Button
               onClick={() => table.nextPage()}
               disabled={!casesQuery.data?.next}
