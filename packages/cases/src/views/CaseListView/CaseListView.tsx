@@ -23,6 +23,10 @@ export const CaseListView = () => {
     pageSize: 25,
   });
 
+  const [selectedUserIds, setSelectedUserIds] = useState<User['identifier'][]>(
+    [],
+  );
+
   const casesQuery = CaseApi.useGetCasesQuery(pagination);
   const usersQuery = UserApi.useGetUsersQuery();
 
@@ -35,6 +39,16 @@ export const CaseListView = () => {
       {} as Record<User['identifier'], User>,
     );
   }, [usersQuery.data]);
+
+  const cases = casesQuery.data?.cases;
+
+  const filteredCases = useMemo(() => {
+    if (!cases) return undefined;
+    if (!selectedUserIds || selectedUserIds.length === 0) return cases;
+    return cases.filter(({ assignee_id }) => {
+      return selectedUserIds.includes(assignee_id);
+    });
+  }, [cases, selectedUserIds]);
 
   const casesColumns = useMemo(() => {
     const columnHelper = createColumnHelper<Case>();
@@ -69,17 +83,12 @@ export const CaseListView = () => {
           return <p>{usersMap[cell.getValue()].name}</p>;
         },
         header: () => <p>Assignee</p>,
-        filterFn: (row, columnId, filterValue) => {
-          const userId: string = row.getValue(columnId);
-          const userName = usersMap[userId].name || '';
-          return userName.toLowerCase().includes(filterValue.toLowerCase());
-        },
       }),
     ];
   }, [usersMap]);
 
   const table = useReactTable({
-    data: casesQuery.data?.cases || [],
+    data: filteredCases || [],
     columns: casesColumns,
     getCoreRowModel: getCoreRowModel(),
     state: { pagination },
@@ -94,15 +103,22 @@ export const CaseListView = () => {
     }));
   }, [usersQuery.data]);
 
-  const isDataReady = Boolean(casesQuery.data && usersQuery.data);
-
   const handleSelectUser = (
     users: MultiValue<{ value: string; label: string }>,
-  ) => console.log(users);
+  ) => {
+    const seletedUserIds = users.reduce((acc, user) => {
+      acc.push(user.value);
+      return acc;
+    }, [] as string[]);
+
+    setSelectedUserIds(seletedUserIds);
+  };
 
   const handleChangeCasePerPage = (count: string) => {
     setPagination({ ...pagination, pageSize: +count });
   };
+
+  const isDataReady = Boolean(casesQuery.data && usersQuery.data);
 
   if (casesQuery.isLoading || usersQuery.isLoading)
     return <div>...Loading</div>;
