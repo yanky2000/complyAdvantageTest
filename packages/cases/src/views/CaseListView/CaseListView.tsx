@@ -24,7 +24,7 @@ import Select, { type MultiValue } from 'react-select';
 export const CaseListView = () => {
   const [pagination, setPagination] = useState<Pagination>({
     pageIndex: 0,
-    pageSize: 25,
+    pageSize: PAGINATION_ITEMS_PER_PAGE[2],
   });
 
   const [selectedUserIds, setSelectedUserIds] = useState<User['identifier'][]>(
@@ -202,6 +202,7 @@ export const CaseListView = () => {
               <ThemeSelect
                 sx={{ width: 'size-xs' }}
                 onChange={(e) => handleChangeCasePerPage(e.target.value)}
+                defaultValue={pagination.pageSize}
               >
                 {PAGINATION_ITEMS_PER_PAGE.map((item) => (
                   <option key={item}>{item}</option>
