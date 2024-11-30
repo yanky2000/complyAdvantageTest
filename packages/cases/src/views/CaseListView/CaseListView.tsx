@@ -20,6 +20,7 @@ import {
   PAGINATION_ITEMS_PER_PAGE,
 } from './constants';
 import Select, { type MultiValue } from 'react-select';
+import { PiCaretLeft, PiCaretRight } from 'react-icons/pi';
 
 export const CaseListView = () => {
   const [pagination, setPagination] = useState<Pagination>({
@@ -147,7 +148,16 @@ export const CaseListView = () => {
     return <div>Something went wrong</div>;
 
   return (
-    <Box>
+    <Box
+      padding="spacing-md"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        margin: '0 auto',
+        maxWidth: 'size-4xl',
+        justifyContent: 'center',
+      }}
+    >
       <Heading>Cases</Heading>
       {isDataReady ? (
         <>
@@ -217,27 +227,61 @@ export const CaseListView = () => {
             </tbody>
           </table>
 
-          <Box>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'spacing-3xs',
+              marginTop: 'spacing-md',
+              justifyContent: 'flex-end',
+            }}
+          >
             <Button
-              onClick={() => table.setPageIndex(0)}
-              disabled={!casesQuery.data?.prev}
-            >
-              First
-            </Button>
-            <Button
+              variant="icon"
               onClick={() => table.previousPage()}
               disabled={!casesQuery.data?.prev}
+              sx={{ padding: 'spacing-3xs', transition: 'all .3s ease' }}
             >
-              Previous
+              <PiCaretLeft
+                size={24}
+                {...(!casesQuery.data?.prev && { sx: { color: 'neutral400' } })}
+              />
             </Button>
 
-            <span>Page {table.getState().pagination.pageIndex + 1}</span>
+            <Box
+              sx={{
+                display: 'flex',
+                width: 'size-3xs',
+                justifyContent: 'center',
+              }}
+            >
+              <span>Page {table.getState().pagination.pageIndex + 1}</span>
+            </Box>
 
-            <Box>
+            <Button
+              variant="icon"
+              onClick={() => table.nextPage()}
+              disabled={!casesQuery.data?.next}
+              sx={{ padding: 'spacing-3xs', transition: 'all .3s ease' }}
+            >
+              <PiCaretRight
+                size={24}
+                {...(!casesQuery.data?.next && { sx: { color: 'neutral400' } })}
+              />
+            </Button>
+
+            <Box
+              sx={{ display: 'flex', alignItems: 'center', ml: 'spacing-md' }}
+            >
+              <Box mr="spacing-xs">Rows per page</Box>
               <ThemeSelect
-                sx={{ width: 'size-xs' }}
+                sx={{
+                  width: '52px',
+                  paddingLeft: 'spacing-xs',
+                  paddingRight: 'spacing-xs',
+                }}
                 onChange={(e) => handleChangeCasePerPage(e.target.value)}
-                defaultValue={pagination.pageSize}
+                value={pagination.pageSize}
               >
                 {PAGINATION_ITEMS_PER_PAGE.map((item) => (
                   <option key={item}>{item}</option>
