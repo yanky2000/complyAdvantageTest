@@ -6,6 +6,7 @@ import {
   buttonVariants,
   linkVariants,
   cardVariants,
+  badgeVariants,
 } from './variants';
 
 const makeTheme = <T extends Theme>(t: T) => t;
@@ -286,6 +287,7 @@ const theme = makeTheme({
   buttons: buttonVariants,
   links: linkVariants,
   cards: cardVariants,
+  badges: badgeVariants,
 });
 
 export type UTheme = typeof theme;

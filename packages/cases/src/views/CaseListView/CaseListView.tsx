@@ -14,7 +14,11 @@ import {
   type User,
 } from 'shared';
 import { Box, Button, Heading, Select as ThemeSelect } from 'theme-ui';
-import { PAGINATION_ITEMS_PER_PAGE } from './constants';
+import {
+  BADGE_STATUS_COLORS_MAP,
+  BADGE_STATUS_MAP,
+  PAGINATION_ITEMS_PER_PAGE,
+} from './constants';
 import Select, { type MultiValue } from 'react-select';
 
 export const CaseListView = () => {
@@ -73,7 +77,14 @@ export const CaseListView = () => {
       }),
 
       columnHelper.accessor('status', {
-        cell: (cell) => <p>{cell.getValue()}</p>,
+        cell: (cell) => {
+          const status = cell.getValue();
+          return (
+            <Box variant={`badges.${BADGE_STATUS_COLORS_MAP[status]}`}>
+              {BADGE_STATUS_MAP[status]}
+            </Box>
+          );
+        },
         header: () => <p>Status</p>,
       }),
 
