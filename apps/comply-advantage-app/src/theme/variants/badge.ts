@@ -22,13 +22,11 @@ export const badgeVariants: Record<BadgeVariants, ThemeUIStyleObject> = {
   },
   danger: {
     variant: 'badges.default',
-    bg: 'negative500',
-    color: 'textWhite',
+    bg: 'bgNegative',
   },
   success: {
     variant: 'badges.default',
-    bg: 'positive500',
-    color: 'textWhite',
+    bg: 'bgPositive',
   },
   warning: {
     variant: 'badges.default',
@@ -37,7 +35,6 @@ export const badgeVariants: Record<BadgeVariants, ThemeUIStyleObject> = {
   },
   info: {
     variant: 'badges.default',
-    bg: 'accent100',
-    color: 'textLink',
+    bg: 'neutral100',
   },
 };
