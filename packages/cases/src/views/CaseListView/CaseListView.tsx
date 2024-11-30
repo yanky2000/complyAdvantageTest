@@ -4,7 +4,7 @@ import {
   flexRender,
   createColumnHelper,
 } from '@tanstack/react-table';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   CaseApi,
@@ -139,6 +139,20 @@ export const CaseListView = () => {
   const handleChangeCasePerPage = (count: string) => {
     setPagination({ ...pagination, pageSize: +count });
   };
+
+  // handle out-of-boundry case
+  useEffect(() => {
+    if (
+      casesQuery.data?.cases.length === 0 &&
+      !casesQuery.data?.prev &&
+      !casesQuery.data?.next
+    ) {
+      setPagination((prev) => ({
+        ...prev,
+        pageIndex: 0,
+      }));
+    }
+  }, [casesQuery.data?.cases, casesQuery.data?.prev, casesQuery.data?.next]);
 
   const isDataReady = Boolean(casesQuery.data && usersQuery.data);
 
@@ -288,13 +302,6 @@ export const CaseListView = () => {
                 ))}
               </ThemeSelect>
             </Box>
-
-            <Button
-              onClick={() => table.nextPage()}
-              disabled={!casesQuery.data?.next}
-            >
-              Next
-            </Button>
           </Box>
         </>
       ) : null}
