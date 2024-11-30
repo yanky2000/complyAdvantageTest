@@ -102,7 +102,13 @@ export const CaseListView = () => {
       columnHelper.accessor('assignee_id', {
         cell: (cell) => {
           // todo: marke inactive users
-          return <p>{usersMap[cell.getValue()].name}</p>;
+          const value = cell.getValue();
+          const status = usersMap[value].active;
+          return (
+            <p {...(!status && { sx: { color: 'neutral400' } })}>
+              {usersMap[cell.getValue()].name}
+            </p>
+          );
         },
         header: () => <p>Assignee</p>,
       }),
