@@ -179,6 +179,8 @@ export const CaseListView = () => {
                         padding: 'spacing-xs',
                         backgroundColor: 'bgPanel',
                         color: 'textBase',
+                        position: 'sticky',
+                        top: 0,
                       }}
                     >
                       {header.isPlaceholder
