@@ -1,8 +1,8 @@
-export const PAGINATION_ITEMS_PER_PAGE = [5, 10, 25, 50];
+export const PAGINATION_ITEMS_PER_PAGE = [5, 10, 15, 25, 50];
 
 export const BADGE_STATUS_COLORS_MAP: Record<string, string> = {
-  CASE_NOT_STARTED: 'primary',
-  CASE_IN_PROGRESS: 'info',
+  CASE_NOT_STARTED: 'info',
+  CASE_IN_PROGRESS: 'primary',
   CASE_ON_HOLD: 'warning',
   CASE_RESOLVED_NO_RISK_DETECTED: 'success',
   CASE_RESOLVED_RISK_DETECTED: 'danger',

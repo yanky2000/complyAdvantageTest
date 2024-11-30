@@ -58,17 +58,23 @@ export const CaseListView = () => {
     const columnHelper = createColumnHelper<Case>();
     if (!usersMap) return [];
 
-    // identifier: 'eb038a4c-1b7a-4a88-80ee-8a086b0fdd3d',
-    // assignee_id: '287c3a82-ea31-4db1-b0a5-ce7f0bf975fe',
-    // status: 'CASE_ON_HOLD',
-    // name: 'Reilly - Hamill',
-
     return [
       columnHelper.accessor('name', {
         cell: (cell) => (
           <Link
             to={`${cell.row.original.identifier}`}
             state={{ caseDetails: cell.row.original }}
+            sx={{
+              textDecoration: 'none',
+              color: 'textLink',
+              fontWeight: 'font-weight-semi-bold',
+              cursor: 'pointer',
+              transition: 'color 0.2s ease',
+              '&:hover': {
+                color: 'accent500',
+                textDecoration: 'underline',
+              },
+            }}
           >
             {cell.getValue()}
           </Link>
@@ -80,7 +86,11 @@ export const CaseListView = () => {
         cell: (cell) => {
           const status = cell.getValue();
           return (
-            <Box variant={`badges.${BADGE_STATUS_COLORS_MAP[status]}`}>
+            <Box
+              variant={`badges.${BADGE_STATUS_COLORS_MAP[status]}`}
+              paddingLeft="spacing-xs"
+              paddingRight="spacing-xs"
+            >
               {BADGE_STATUS_MAP[status]}
             </Box>
           );
@@ -146,15 +156,31 @@ export const CaseListView = () => {
               isMulti
               options={userOptions}
               onChange={(users) => handleSelectUser(users)}
+              sx={{ marginBottom: 'spacing-md' }}
             />
           )}
 
-          <table>
+          <table
+            sx={{
+              width: '100%',
+              tableLayout: 'fixed',
+              borderCollapse: 'collapse',
+            }}
+          >
             <thead>
               {table.getHeaderGroups().map((headerGroup) => (
                 <tr key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
-                    <th key={header.id}>
+                    <th
+                      key={header.id}
+                      sx={{
+                        textAlign: 'left',
+                        border: '1px solid #ddd',
+                        padding: 'spacing-xs',
+                        backgroundColor: 'bgPanel',
+                        color: 'textBase',
+                      }}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -170,7 +196,14 @@ export const CaseListView = () => {
               {table.getRowModel().rows.map((row) => (
                 <tr key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id}>
+                    <td
+                      key={cell.id}
+                      sx={{
+                        border: '1px solid #ddd',
+                        padding: 'spacing-xs',
+                        textAlign: 'left',
+                      }}
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),
