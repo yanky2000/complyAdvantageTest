@@ -1,19 +1,28 @@
 import { useLocation } from 'react-router-dom';
-import { Box } from 'theme-ui';
+import { Container } from 'theme-ui';
 
 export function CaseItemView() {
   const location = useLocation();
   const { caseDetails } = location.state || {};
 
   return (
-    <Box>
+    <Container
+      padding="spacing-md"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        margin: '0 auto',
+        maxWidth: 'size-4xl',
+        justifyContent: 'center',
+      }}
+    >
       CaseItem
       <ul>
-        {caseDetails.identifier}
-        {caseDetails.name}
-        {caseDetails.status}
-        {caseDetails.assignee_id}
+        <li>Id: {caseDetails.identifier}</li>
+        <li>Name: {caseDetails.name}</li>
+        <li>Status: {caseDetails.status}</li>
+        <li>Assignee: {caseDetails.assignee_id}</li>
       </ul>
-    </Box>
+    </Container>
   );
 }
