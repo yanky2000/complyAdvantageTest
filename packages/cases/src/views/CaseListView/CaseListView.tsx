@@ -13,13 +13,7 @@ import {
   type Pagination,
   type User,
 } from 'shared';
-import {
-  Box,
-  Button,
-  Container,
-  Heading,
-  Select as ThemeSelect,
-} from 'theme-ui';
+import { Box, Button, Container, Select as ThemeSelect } from 'theme-ui';
 import {
   BADGE_STATUS_COLORS_MAP,
   BADGE_STATUS_MAP,
@@ -184,7 +178,9 @@ export const CaseListView = () => {
         justifyContent: 'center',
       }}
     >
-      <Heading>Cases</Heading>
+      <Box as="h1" sx={{ variant: 'styles.h1', paddingBottom: 'spacing-md' }}>
+        Cases
+      </Box>
       {isDataReady ? (
         <>
           {userOptions && (
@@ -193,6 +189,7 @@ export const CaseListView = () => {
               options={userOptions}
               onChange={(users) => handleSelectUser(users)}
               sx={{ marginBottom: 'spacing-md' }}
+              placeholder="Filter by assignee"
             />
           )}
 
