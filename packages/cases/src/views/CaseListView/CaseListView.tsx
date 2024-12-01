@@ -148,17 +148,26 @@ export const CaseListView = () => {
 
   // handle out-of-boundry case
   useEffect(() => {
-    if (
-      casesQuery.data?.cases.length === 0 &&
-      !casesQuery.data?.prev &&
-      !casesQuery.data?.next
-    ) {
+    const isOutOfBoundary =
+      Array.isArray(casesQuery.data?.cases) &&
+      casesQuery.data.cases.length === 0 &&
+      !casesQuery.data.prev &&
+      !casesQuery.data.next &&
+      !casesQuery.data.self;
+
+    if (isOutOfBoundary && pagination.pageIndex !== 0) {
       setPagination((prev) => ({
         ...prev,
         pageIndex: 0,
       }));
     }
-  }, [casesQuery.data?.cases, casesQuery.data?.prev, casesQuery.data?.next]);
+  }, [
+    casesQuery.data?.cases,
+    casesQuery.data?.prev,
+    casesQuery.data?.next,
+    casesQuery.data?.self,
+    pagination.pageIndex,
+  ]);
 
   const isDataReady = Boolean(casesQuery.data && usersQuery.data);
 
@@ -308,6 +317,7 @@ export const CaseListView = () => {
                 }}
                 onChange={(e) => handleChangeCasePerPage(e.target.value)}
                 value={pagination.pageSize}
+                aria-label="Rows per page"
               >
                 {PAGINATION_ITEMS_PER_PAGE.map((item) => (
                   <option key={item}>{item}</option>
