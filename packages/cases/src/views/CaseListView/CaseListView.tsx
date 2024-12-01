@@ -13,7 +13,13 @@ import {
   type Pagination,
   type User,
 } from 'shared';
-import { Box, Button, Heading, Select as ThemeSelect } from 'theme-ui';
+import {
+  Box,
+  Button,
+  Container,
+  Heading,
+  Select as ThemeSelect,
+} from 'theme-ui';
 import {
   BADGE_STATUS_COLORS_MAP,
   BADGE_STATUS_MAP,
@@ -168,7 +174,7 @@ export const CaseListView = () => {
     return <div>Something went wrong</div>;
 
   return (
-    <Box
+    <Container
       padding="spacing-md"
       sx={{
         display: 'flex',
@@ -311,6 +317,6 @@ export const CaseListView = () => {
           </Box>
         </>
       ) : null}
-    </Box>
+    </Container>
   );
 };
