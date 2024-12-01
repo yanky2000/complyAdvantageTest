@@ -6,6 +6,9 @@ import {
 } from '@tanstack/react-table';
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Select, { type MultiValue } from 'react-select';
+import { PiCaretLeft, PiCaretRight } from 'react-icons/pi';
+import { Box, Button, Container, Select as ThemeSelect } from 'theme-ui';
 import {
   CaseApi,
   UserApi,
@@ -13,14 +16,11 @@ import {
   type Pagination,
   type User,
 } from 'shared';
-import { Box, Button, Container, Select as ThemeSelect } from 'theme-ui';
 import {
   BADGE_STATUS_COLORS_MAP,
   BADGE_STATUS_MAP,
   PAGINATION_ITEMS_PER_PAGE,
 } from './constants';
-import Select, { type MultiValue } from 'react-select';
-import { PiCaretLeft, PiCaretRight } from 'react-icons/pi';
 
 export const CaseListView = () => {
   const [pagination, setPagination] = useState<Pagination>({
@@ -291,11 +291,11 @@ export const CaseListView = () => {
               onClick={() => table.nextPage()}
               disabled={!casesQuery.data?.next}
               sx={{ padding: 'spacing-3xs', transition: 'all .3s ease' }}
+              aria-label="next"
             >
               <PiCaretRight
                 size={24}
                 {...(!casesQuery.data?.next && { sx: { color: 'neutral400' } })}
-                aria-label="next"
               />
             </Button>
 
