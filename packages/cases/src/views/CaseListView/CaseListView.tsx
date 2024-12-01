@@ -146,28 +146,22 @@ export const CaseListView = () => {
     setPagination({ ...pagination, pageSize: +count });
   };
 
+  const isOutOfBoundary =
+    Array.isArray(casesQuery.data?.cases) &&
+    casesQuery.data.cases.length === 0 &&
+    !casesQuery.data.prev &&
+    !casesQuery.data.next &&
+    !casesQuery.data.self;
+
   // handle out-of-boundry case
   useEffect(() => {
-    const isOutOfBoundary =
-      Array.isArray(casesQuery.data?.cases) &&
-      casesQuery.data.cases.length === 0 &&
-      !casesQuery.data.prev &&
-      !casesQuery.data.next &&
-      !casesQuery.data.self;
-
     if (isOutOfBoundary && pagination.pageIndex !== 0) {
       setPagination((prev) => ({
         ...prev,
         pageIndex: 0,
       }));
     }
-  }, [
-    casesQuery.data?.cases,
-    casesQuery.data?.prev,
-    casesQuery.data?.next,
-    casesQuery.data?.self,
-    pagination.pageIndex,
-  ]);
+  }, [isOutOfBoundary, pagination.pageIndex]);
 
   const isDataReady = Boolean(casesQuery.data && usersQuery.data);
 
