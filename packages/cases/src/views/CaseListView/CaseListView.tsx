@@ -190,6 +190,7 @@ export const CaseListView = () => {
               onChange={(users) => handleSelectUser(users)}
               sx={{ marginBottom: 'spacing-md' }}
               placeholder="Filter by assignee"
+              aria-label="Filter by assignee"
             />
           )}
 
@@ -264,6 +265,7 @@ export const CaseListView = () => {
               onClick={() => table.previousPage()}
               disabled={!casesQuery.data?.prev}
               sx={{ padding: 'spacing-3xs', transition: 'all .3s ease' }}
+              aria-label="previous"
             >
               <PiCaretLeft
                 size={24}
@@ -290,6 +292,7 @@ export const CaseListView = () => {
               <PiCaretRight
                 size={24}
                 {...(!casesQuery.data?.next && { sx: { color: 'neutral400' } })}
+                aria-label="next"
               />
             </Button>
 
