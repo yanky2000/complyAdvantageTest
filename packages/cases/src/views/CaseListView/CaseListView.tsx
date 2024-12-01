@@ -25,7 +25,7 @@ import { PiCaretLeft, PiCaretRight } from 'react-icons/pi';
 export const CaseListView = () => {
   const [pagination, setPagination] = useState<Pagination>({
     pageIndex: 0,
-    pageSize: PAGINATION_ITEMS_PER_PAGE[2],
+    pageSize: PAGINATION_ITEMS_PER_PAGE[3],
   });
 
   const [selectedUserIds, setSelectedUserIds] = useState<User['identifier'][]>(
@@ -178,7 +178,7 @@ export const CaseListView = () => {
         justifyContent: 'center',
       }}
     >
-      <Box as="h1" sx={{ variant: 'styles.h1', paddingBottom: 'spacing-md' }}>
+      <Box as="h2" sx={{ variant: 'styles.h1', paddingBottom: 'spacing-md' }}>
         Cases
       </Box>
       {isDataReady ? (
