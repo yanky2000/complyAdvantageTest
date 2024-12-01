@@ -101,7 +101,6 @@ export const CaseListView = () => {
 
       columnHelper.accessor('assignee_id', {
         cell: (cell) => {
-          // todo: marke inactive users
           const value = cell.getValue();
           const status = usersMap[value].active;
           return (
