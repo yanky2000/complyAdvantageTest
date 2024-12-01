@@ -4,6 +4,7 @@ import { Container } from 'theme-ui';
 export function CaseItemView() {
   const location = useLocation();
   const { caseDetails } = location.state || {};
+  if (!caseDetails) return 'No Data';
 
   return (
     <Container
